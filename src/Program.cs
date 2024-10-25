@@ -3,5 +3,4 @@ builder.Services.AddControllers();
 
 WebApplication app = builder.Build();
 
-Console.ReadLine();
 await app.RunAsync();
