@@ -60,10 +60,15 @@ jobs:
           --title="${GITHUB_REPOSITORY#*/} ${{env.SEMVER}}" \
           --generate-notes
 
-    # run ssh commands
-    - name: ssh
+    # fetch keys
+    - name: Fetch SSH keys
       run: |
-        ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'echo "Hello, world!"'
+        install -m 600 -d ~/.ssh
+        echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/id_rsa
+        ssh-keyscan -H ${{secrets.SSH_HOST}} > ~/.ssh/known_hosts
+
+    - name: connect and run command
+      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'echo "Hello, world!"'
  
 
 
