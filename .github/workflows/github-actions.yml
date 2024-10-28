@@ -60,16 +60,15 @@ jobs:
           --title="${GITHUB_REPOSITORY#*/} ${{env.SEMVER}}" \
           --generate-notes
 
-    # Login to github container registry
-    - name: Login to GitHub Container Registry
-      uses: docker/login-action@v3
+    # ssh to the server
+    - name: ssh to the server
+      uses: webfactory/ssh-agent@v0.9.0
       with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        ssh-private-key: ${{ secrets.ERP_PIPELINE }}
 
-    - name: Publish
-      uses: docker/build-push-action@v5
-      with:
-        push: true
-        tags: ghcr.io/christiansgh/erp:${{ env.SEMVER }}
+    # Run commands on the server
+    - name: temp
+      run: touch test.txt
+ 
+
+
