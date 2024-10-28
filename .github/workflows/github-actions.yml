@@ -68,7 +68,7 @@ jobs:
         ssh-keyscan -H ${{secrets.SSH_HOST}} > ~/.ssh/known_hosts
 
     - name: connect and run command
-      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'echo "Hello, world!"'
+      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'touch test.txt'
  
 
 
