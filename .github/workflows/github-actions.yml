@@ -65,12 +65,11 @@ jobs:
       uses: webfactory/ssh-agent@v0.9.0
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-      run: touch test.txt
           
 
     # Run commands on the server
-    - name: temp
-      run: touch test.txt
+    - name: Run remote command
+      run: ssh -o StrictHostKeyChecking=no username@your-server-ip 'touch /path/to/test.txt'
  
 
 
