@@ -72,4 +72,4 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         push: true
-        tags: ghcr.io/${{ github.actor }}/erp:${{ env.SEMVER }}
+        tags: ghcr.io/${{ github.actor,, }}/erp:${{ env.SEMVER }}
