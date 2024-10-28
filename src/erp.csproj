@@ -4,9 +4,13 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>erp_hovedopgave</RootNamespace>
+    <RootNamespace>erp</RootNamespace>
     <InvariantGlobalization>true</InvariantGlobalization>
     <PublishAot>true</PublishAot>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="logs\" />
+  </ItemGroup>
 
 </Project>
