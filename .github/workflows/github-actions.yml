@@ -71,4 +71,4 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/solemates:${{ env.SEMVER }}
+        tags: ${{ secrets.DOCKER_USERNAME }}/erp:${{ env.SEMVER }}
