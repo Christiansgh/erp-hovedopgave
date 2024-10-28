@@ -60,16 +60,10 @@ jobs:
           --title="${GITHUB_REPOSITORY#*/} ${{env.SEMVER}}" \
           --generate-notes
 
-    # ssh to the server
-    - name: ssh to the server
-      uses: webfactory/ssh-agent@v0.9.0
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          
-
-    # Run commands on the server
-    - name: Run remote command
-      run: ssh -o StrictHostKeyChecking=no username@your-server-ip 'touch /path/to/test.txt'
+    # run ssh commands
+    - name: ssh
+      run: |
+        ssh ${{ secrets.SSH_KEY }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'echo "Hello, world!"'
  
 
 
