@@ -63,7 +63,7 @@ jobs:
     # run ssh commands
     - name: ssh
       run: |
-        ssh ${{ secrets.SSH_KEY }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'echo "Hello, world!"'
+        ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'echo "Hello, world!"'
  
 
 
