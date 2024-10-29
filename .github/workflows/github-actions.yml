@@ -75,7 +75,7 @@ jobs:
 
         git checkout ${{secrets.MAIN_BRANCH}} && git pull &&
 
-        bash kill-containers.sh &&
+        bash ~/kill-containers.sh &&
 
         docker build -t erp:${{ env.SEMVER }} . &&
         docker run -d -p 8080:8080 erp:${{ env.SEMVER }}
