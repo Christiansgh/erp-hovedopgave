@@ -70,8 +70,13 @@ jobs:
     - name: Run commands on the server with ssh.
       run: |
         ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} '
-        ls -a && cd ${{secrets.WORK_DIR}} && 
-        git checkout ${{secrets.MAIN_BRANCH}} && git pull && 
+
+        ls -a && cd ${{secrets.WORK_DIR}} &&
+
+        git checkout ${{secrets.MAIN_BRANCH}} && git pull &&
+
+        bash kill-containers.sh &&
+
         docker build -t erp:${{ env.SEMVER }} . &&
         docker run -d -p 8080:8080 erp:${{ env.SEMVER }}
         '
