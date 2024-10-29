@@ -68,7 +68,11 @@ jobs:
         ssh-keyscan -H ${{secrets.SSH_HOST}} > ~/.ssh/known_hosts
 
     - name: connect and run command
-      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'touch test.txt'
+      run: |
+        ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
+        docker build -t erp:${{ env.SEMVER }} .
+        docker run -d -p 8080:8080 erp:${{ env.SEMVER }}
+         
  
 
 
