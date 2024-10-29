@@ -70,6 +70,7 @@ jobs:
     - name: Pull repo
       run: |
         ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
+        ls -a
         cd ${{secrets.WORK_DIR}} && git checkout ${{secrets.MAIN_BRANCH}} && git pull
 
     - name: Build and run Docker container
