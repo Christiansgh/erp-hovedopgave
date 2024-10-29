@@ -67,16 +67,14 @@ jobs:
         echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/id_rsa
         ssh-keyscan -H ${{secrets.SSH_HOST}} > ~/.ssh/known_hosts
 
-    - name: Pull repo
+    - name: Run commands on the server with ssh.
       run: |
         ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} '
         ls -a && cd ${{secrets.WORK_DIR}} && 
-        git checkout ${{secrets.MAIN_BRANCH}} && git pull'
-
-    - name: Build and run Docker container
-      run: |
-        docker build -t erp:${{ env.SEMVER }} .
+        git checkout ${{secrets.MAIN_BRANCH}} && git pull && 
+        docker build -t erp:${{ env.SEMVER }} . &&
         docker run -d -p 8080:8080 erp:${{ env.SEMVER }}
+        '
          
  
 
