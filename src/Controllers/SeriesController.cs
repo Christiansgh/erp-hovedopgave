@@ -7,21 +7,21 @@ namespace erp.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ShoeController : ControllerBase {
+public class SeriesController : ControllerBase {
   private ILoggerService _logger;
   private IAuthenticationService _authenticator;
-  private ShoeRepository _shoeRepo;
+  private readonly SeriesRepository _seriesRepo;
 
-  public ShoeController(ILoggerService logger, IAuthenticationService authenticator, ShoeRepository shoeRepo) {
+  public SeriesController(ILoggerService logger, IAuthenticationService authenticator, SeriesRepository seriesRepo) {
     _logger = logger;
     _authenticator = authenticator;
-    _shoeRepo = shoeRepo;
+    _seriesRepo = seriesRepo;
   }
 
-  [Route("getallshoes")]
+  [Route("getallseries")]
   [HttpGet]
   //TODO: Apikey validation
-  public async Task<IActionResult> GetAllShoes() {
+  public async Task<IActionResult> GetAllSeries() {
     string? recievedUsername = Request.Headers["username"];
     string? recievedPassword = Request.Headers["password"];
 
@@ -34,8 +34,8 @@ public class ShoeController : ControllerBase {
     }
 
     try {
-      List<Shoe> allShoes = await _shoeRepo.ReadAllAsync();
-      return new JsonResult(allShoes);
+      List<SeriesModel> allSeries = await _seriesRepo.ReadAllAsync();
+      return new JsonResult(allSeries);
     } catch (Exception ex) {
       _logger.LogError(ex.ToString());
       return StatusCode(500, "exception catched");

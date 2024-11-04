@@ -3,15 +3,15 @@ using System.Data.SqlClient;
 
 namespace erp.Repositories;
 
-public class ShoeRepository : IRepository<Shoe, string, bool> {
+public class SeriesRepository : IRepository<SeriesModel, string, bool> {
   private DataAccessLayer _dataAccessLayer;
 
-  public ShoeRepository(DataAccessLayer dataAccessLayer) {
+  public SeriesRepository(DataAccessLayer dataAccessLayer) {
     _dataAccessLayer = dataAccessLayer;
   }
 
   //TODO: Exception handling
-  public async Task<bool> CreateAsync(Shoe model) {
+  public async Task<bool> CreateAsync(SeriesModel model) {
     //string query = "INSERT INTO shoes (Brand, Color, Size, Stock) VALUES (@Brand, @Color, @Size, @Stock)";
     //var parameters = new Dictionary<string, string>() {
     //  { "@Brand", model.Brand },
@@ -27,37 +27,40 @@ public class ShoeRepository : IRepository<Shoe, string, bool> {
   }
 
   //TODO: Exception handling
-  public Task<bool> DeleteAsync(Shoe model) {
+  public Task<bool> DeleteAsync(SeriesModel model) {
     throw new NotImplementedException();
   }
 
   //TODO: Exception handling
-  public async Task<List<Shoe>> ReadAllAsync() {
-    var allShoes = new List<Shoe>();
+  public async Task<List<SeriesModel>> ReadAllAsync() {
+    var allSeries = new List<SeriesModel>();
 
-    using (SqlDataReader result = await _dataAccessLayer.ExecuteQueryAsync("SELECT * FROM shoes")) {
+    using (SqlDataReader result = await _dataAccessLayer.ExecuteQueryAsync("SELECT * FROM series")) {
       while (await result.ReadAsync()) {
-        var shoe = new Shoe(
+        var series = new SeriesModel(
+          Name: result.GetString(result.GetOrdinal("Name")),
           Brand: result.GetString(result.GetOrdinal("Brand")),
-          Color: result.GetString(result.GetOrdinal("Color")),
-          Size: result.GetInt32(result.GetOrdinal("Size")),
-          StockAmount: result.GetInt32(result.GetOrdinal("Stock"))
+          Price: result.GetInt32(result.GetOrdinal("Price")),
+          //TODO: Hardcoded for now - Figure out how to read all sizes, their SKU, stock etc.
+          Sizes: new List<SizeModel>() {
+            { new SizeModel(SKU: "Placeholder SKU", Size: 32, Stock: 26) }
+          }
         );
 
-        allShoes.Add(shoe);
+        allSeries.Add(series);
       }
     }
 
-    return allShoes;
+    return allSeries;
   }
 
   //TODO: Exception handling
-  public Task<Shoe> ReadByIdAsync(string id) {
+  public Task<SeriesModel> ReadByIdAsync(string id) {
     throw new NotImplementedException();
   }
 
   //TODO: Exception handling
-  public Task<bool> UpdateAsync(Shoe model) {
+  public Task<bool> UpdateAsync(SeriesModel model) {
     throw new NotImplementedException();
   }
 }

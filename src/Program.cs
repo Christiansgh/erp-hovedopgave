@@ -1,5 +1,4 @@
 ﻿using erp;
-using erp.Controllers;
 using erp.Repositories;
 using erp.Services;
 
@@ -8,9 +7,9 @@ builder.Services.AddControllers();
 
 builder.Services.AddSingleton<ILoggerService, LoggerService>();
 builder.Services.AddSingleton<IAuthenticationService, SimpleAuthenticationService>();
-builder.Services.AddSingleton<ShoeController>();
+builder.Services.AddSingleton<SeriesController>();
 builder.Services.AddSingleton<DataAccessLayer>();
-builder.Services.AddSingleton<ShoeRepository>();
+builder.Services.AddSingleton<SeriesRepository>();
 
 WebApplication app = builder.Build();
 app.MapControllers();
