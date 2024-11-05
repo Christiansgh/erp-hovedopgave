@@ -38,7 +38,7 @@ public class SeriesController : ControllerBase {
       return new JsonResult(allSeries);
     } catch (Exception ex) {
       _logger.LogError(ex.ToString());
-      return StatusCode(500, "exception catched");
+      return StatusCode(500, "exception catched" + ex.Message);
     }
   }
 }
