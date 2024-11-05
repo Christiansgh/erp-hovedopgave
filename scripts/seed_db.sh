@@ -32,8 +32,8 @@ QUERY=$(cat "$SQL_FILE")
 sqlcmd -S 37.27.179.21\\SQLEXPRESS22,1433 -U 'sa' -P 'itsteatime-123' -d ERP -Q "$QUERY"
 
 if [ $? -eq 0 ]; then # exit code - 0 is success.
-    echo -e "${GREEN}Database seeded successfully${RESET}"
+    echo -e "${GREEN}Database query successfully ran.${RESET}"
 else
-    echo -e "${RED}Seeding the database failed${RESET}"
+    echo -e "${RED}Database query failed.${RESET}"
 fi
 
