@@ -66,7 +66,7 @@ brand_to_series = {
         "Supertrac", "Trail_Rocket", "Gravel"
     ]
 }
-sizes = ['36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46']
+sizes = ['36', '37', '38', '39', '40', '41', '42', '43', '44']
 stock_range = (0, 20)
 prices = ['300', '325', '350', '375', '400', '425', '450', '475', '500']
 
@@ -81,6 +81,7 @@ for brand, series_list in brand_to_series.items():
 
     for series in series_list:
         series_code = f"{series_counter:03}"
+        sku = None
 
         for size in sizes:
             sku = f"100{brand_code}{series_code}-{size}"
@@ -88,7 +89,7 @@ for brand, series_list in brand_to_series.items():
             size_data.append((sku, size, random_stock)) # Store as a tuple so we can use the values when generating the script. 
 
         random_price = random.choice(prices)
-        series_data.append((brand, series, random_price)) # Store as a tuple so we can use the values when generating the script. 
+        series_data.append((brand, series, random_price, sku)) # Store as a tuple so we can use the values when generating the script. 
         series_counter += 1
 
     brand_counter += 1
@@ -106,7 +107,8 @@ CREATE TABLE shoes (
 );
 
 CREATE TABLE series (
-    ID INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    ID INT IDENTITY PRIMARY KEY NOT NULL,
+    sku VARCHAR(255) NOT NULL,
     FOREIGN KEY (sku) REFERENCES shoes(sku) ON DELETE CASCADE,
     price DECIMAL(10, 2) NOT NULL,
     brand VARCHAR(255) NOT NULL,
@@ -120,8 +122,8 @@ GO
     shoe_values = [f"('{sku}', {size}, {stock})" for sku, size, stock in size_data]
     file.write(",\n".join(shoe_values) + ";\n\n")
 
-    file.write("INSERT INTO series (brand, name, price) VALUES\n")
-    series_values = [f"('{brand}', '{name}', '{price})" for brand, name, price in series_data]
+    file.write("INSERT INTO series (brand, name, price, sku) VALUES\n")
+    series_values = [f"('{brand}', '{name}', '{price}', '{sku}')" for brand, name, price, sku in series_data]
     file.write(",\n".join(series_values) + ";\n\n")
 
     file.write("SELECT * FROM shoes;\n")

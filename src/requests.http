@@ -1,5 +1,5 @@
 ### Fetch all
-GET http://37.27.179.21:8080/api/shoe/getallshoes
+GET http://37.27.179.21:8080/api/series/getallseries
 username: Hovedopgave
 password: TtXr@oA7M.PaNxCmsvL2WBMw
 
