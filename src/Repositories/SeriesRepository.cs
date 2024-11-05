@@ -35,31 +35,48 @@ public class SeriesRepository : IRepository<SeriesModel, string, bool> {
   public async Task<List<SeriesModel>> ReadAllAsync() {
     var allSeries = new List<SeriesModel>();
 
-    using (SqlDataReader result = await _dataAccessLayer.ExecuteQueryAsync("SELECT * FROM series")) {
-      while (await result.ReadAsync()) {
-        var series = new SeriesModel(
-          Name: result.GetString(result.GetOrdinal("Name")),
-          Brand: result.GetString(result.GetOrdinal("Brand")),
-          Price: result.GetInt32(result.GetOrdinal("Price")),
-          //TODO: Hardcoded for now - Figure out how to read all sizes, their SKU, stock etc.
-          Sizes: new List<SizeModel>() {
-            { new SizeModel(SKU: "Placeholder SKU", Size: 32, Stock: 26) }
-          }
+    string query = """
+      SELECT series.id, series.name, series.brand, series.price, shoes.sku, shoes.size, shoes.stock
+      FROM series
+      FULL OUTER JOIN shoes ON series.ID = shoes.series_id;
+    """;
+
+    using (SqlDataReader result = await _dataAccessLayer.ExecuteQueryAsync(query)) {
+      var currentSeries = new SeriesModel(Name: "", Brand: "", Price: -1, Sizes: null, Id: -1); //store a pointer to the series so we can append sizes to its collection.
+
+      while (await result.ReadAsync()) { //Everything is stored in memory ~ 1k rows
+        int id = result.GetInt32(result.GetOrdinal("id"));
+
+        if (!allSeries.Any(entry => entry.Id == id)) { // No collection for the series id exists.
+          var newSeries = new SeriesModel(
+            Name: result.GetString(result.GetOrdinal("name")),
+            Brand: result.GetString(result.GetOrdinal("brand")),
+            Price: result.GetDecimal(result.GetOrdinal("price")),
+            Sizes: new List<SizeModel>(),
+            Id: id
+          );
+
+          allSeries.Add(newSeries);
+          currentSeries = newSeries;
+        }
+
+        var size = new SizeModel( //map current row's size to a seriesmodel.
+          Size: result.GetInt32(result.GetOrdinal("size")),
+          SKU: result.GetString(result.GetOrdinal("sku")),
+          Stock: result.GetInt32(result.GetOrdinal("stock"))
         );
 
-        allSeries.Add(series);
+        currentSeries.Sizes.Add(size);
       }
     }
 
     return allSeries;
   }
 
-  //TODO: Exception handling
   public Task<SeriesModel> ReadByIdAsync(string id) {
     throw new NotImplementedException();
   }
 
-  //TODO: Exception handling
   public Task<bool> UpdateAsync(SeriesModel model) {
     throw new NotImplementedException();
   }
