@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 
 namespace erp.Repositories;
 
-public class SeriesRepository : IRepository<SeriesModel, string, bool> {
+public class SeriesRepository {
   private DataAccessLayer _dataAccessLayer;
 
   public SeriesRepository(DataAccessLayer dataAccessLayer) {
@@ -11,29 +11,8 @@ public class SeriesRepository : IRepository<SeriesModel, string, bool> {
   }
 
   //TODO: Exception handling
-  public async Task<bool> CreateAsync(SeriesModel model) {
-    //string query = "INSERT INTO shoes (Brand, Color, Size, Stock) VALUES (@Brand, @Color, @Size, @Stock)";
-    //var parameters = new Dictionary<string, string>() {
-    //  { "@Brand", model.Brand },
-    //  { "@Color", model.Color },
-    //  { "@Size", model.Size.ToString()},
-    //  {"@Stock", model.StockAmount.ToString() }
-    //};
-
-    //using (SqlDataReader result = await _dataAccessLayer.ExecuteParameterizedQueryAsync(query, parameters)) {
-
-    //}
-    throw new NotImplementedException();
-  }
-
-  //TODO: Exception handling
-  public Task<bool> DeleteAsync(SeriesModel model) {
-    throw new NotImplementedException();
-  }
-
-  //TODO: Exception handling
-  public async Task<List<SeriesModel>> ReadAllAsync() {
-    var allSeries = new List<SeriesModel>();
+  public async Task<List<ModelRecords>> ReadAllSeriesAsync() {
+    var allSeries = new List<ModelRecords>();
 
     string query = """
       SELECT series.id, series.name, series.brand, series.price, shoes.sku, shoes.size, shoes.stock
@@ -42,13 +21,13 @@ public class SeriesRepository : IRepository<SeriesModel, string, bool> {
     """;
 
     using (SqlDataReader result = await _dataAccessLayer.ExecuteQueryAsync(query)) {
-      var currentSeries = new SeriesModel(Name: "", Brand: "", Price: -1, Sizes: null, Id: -1); //store a pointer to the series so we can append sizes to its collection.
+      var currentSeries = new ModelRecords(Name: "", Brand: "", Price: -1, Sizes: null, Id: -1); //store a pointer to the series so we can append sizes to its collection.
 
       while (await result.ReadAsync()) { //Everything is stored in memory ~ 1k rows
         int id = result.GetInt32(result.GetOrdinal("id"));
 
         if (!allSeries.Any(entry => entry.Id == id)) { // No collection for the series id exists.
-          var newSeries = new SeriesModel(
+          var newSeries = new ModelRecords(
             Name: result.GetString(result.GetOrdinal("name")),
             Brand: result.GetString(result.GetOrdinal("brand")),
             Price: result.GetDecimal(result.GetOrdinal("price")),
@@ -71,13 +50,5 @@ public class SeriesRepository : IRepository<SeriesModel, string, bool> {
     }
 
     return allSeries;
-  }
-
-  public Task<SeriesModel> ReadByIdAsync(string id) {
-    throw new NotImplementedException();
-  }
-
-  public Task<bool> UpdateAsync(SeriesModel model) {
-    throw new NotImplementedException();
   }
 }

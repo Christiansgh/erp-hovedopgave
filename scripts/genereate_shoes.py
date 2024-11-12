@@ -101,7 +101,7 @@ DROP TABLE IF EXISTS shoes;
 DROP TABLE IF EXISTS series;
 
 CREATE TABLE series (
-    id INT IDENTITY(1,1) PRIMARY KEY,  -- Auto-incrementing ID
+    id INT IDENTITY(1,1) PRIMARY KEY,
     price DECIMAL(10, 2) NOT NULL,
     brand VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL
@@ -113,7 +113,7 @@ CREATE TABLE shoes (
     sku VARCHAR(255) PRIMARY KEY,
     stock INT NOT NULL,
     size INT NOT NULL,
-    series_id INT NOT NULL,  -- Foreign key reference to series
+    series_id INT NOT NULL,
     FOREIGN KEY (series_id) REFERENCES series(id) ON DELETE CASCADE
 );
 
@@ -127,9 +127,9 @@ GO
     file.write("INSERT INTO shoes (sku, size, stock, series_id) VALUES")
     
     shoes = []
-    for entry, (sku, size, stock) in enumerate(size_data):          # Since the every shoe has the same num of sizes, 
-        series_id = (entry // len(sizes)) + 1                       # we can take the entries in the size_data collection,                       
-        shoes.append(f"('{sku}', {size}, {stock}, {series_id})")    # and divide them by the length to get the correct series_id.
+    for entry, (sku, size, stock) in enumerate(size_data):          # Since every shoe series has the same num of sizes, 
+        series_id = (entry // len(sizes)) + 1                       # we can take the entries indices in the size_data collection,                       
+        shoes.append(f"('{sku}', {size}, {stock}, {series_id})")    # and divide them by the length of the collection, to get the correct series_id.
                                                                     # Add 1 to offset the 0 indexing.                           
     file.write(",\n".join(shoes) + ";\n\n")                         # I.e. if we have 5 sizes, we know index 0-4 will have the same series,
                                                                     # and index 5-9 will have the next series etc.                               

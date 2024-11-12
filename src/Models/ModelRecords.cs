@@ -2,7 +2,7 @@
 
 namespace erp.Models;
 
-[JsonSerializable(typeof(SeriesModel))]
-public record SeriesModel(string Name, string Brand, decimal Price, List<SizeModel> Sizes, int Id);
+[JsonSerializable(typeof(ModelRecords))]
+public record ModelRecords(string Name, string Brand, decimal Price, List<SizeModel> Sizes, int Id);
 [JsonSerializable(typeof(SizeModel))]
 public record SizeModel(string SKU, int Size, int Stock);

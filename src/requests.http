@@ -9,3 +9,13 @@ username: Hovedopgave
 password: TtXr@oA7M.PaNxCmsvL2WBMw
 
 ###
+
+POST http://localhost:5203/api/stock/poststockupdates
+Content-Type: application/json
+[
+  {
+    "sku": "100001001-36",
+    "stock": 420,
+    "size": 0
+  }
+]

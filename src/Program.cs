@@ -11,6 +11,7 @@ builder.Services.AddSingleton<IAuthenticationService, SimpleAuthenticationServic
 builder.Services.AddSingleton<SeriesController>();
 builder.Services.AddSingleton<DataAccessLayer>();
 builder.Services.AddSingleton<SeriesRepository>();
+builder.Services.AddSingleton<StockRepository>();
 
 WebApplication app = builder.Build();
 app.MapControllers();

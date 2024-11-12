@@ -34,7 +34,7 @@ public class SeriesController : ControllerBase {
     }
 
     try {
-      List<SeriesModel> allSeries = await _seriesRepo.ReadAllAsync();
+      List<ModelRecords> allSeries = await _seriesRepo.ReadAllSeriesAsync();
       return new JsonResult(allSeries);
     } catch (Exception ex) {
       _logger.LogError(ex.ToString());
