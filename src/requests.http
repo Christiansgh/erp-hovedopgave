@@ -11,6 +11,8 @@ password: TtXr@oA7M.PaNxCmsvL2WBMw
 ###
 
 POST http://localhost:5203/api/stock/poststockupdates
+username: Hovedopgave
+password: TtXr@oA7M.PaNxCmsvL2WBMw
 Content-Type: application/json
 [
   {

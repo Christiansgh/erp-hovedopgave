@@ -20,7 +20,6 @@ public class SeriesController : ControllerBase {
 
   [Route("getallseries")]
   [HttpGet]
-  //TODO: Apikey validation
   public async Task<IActionResult> GetAllSeries() {
     string? recievedUsername = Request.Headers["username"];
     string? recievedPassword = Request.Headers["password"];

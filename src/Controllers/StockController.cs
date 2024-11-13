@@ -11,7 +11,6 @@ public class StockController : ControllerBase {
   private ILoggerService _logger;
   private IAuthenticationService _authenticator;
   private readonly StockRepository _stockRepo;
-  private readonly SeriesRepository _seriesRepo;
 
   public StockController(ILoggerService logger, IAuthenticationService authenticator, StockRepository stockRepo) {
     _logger = logger;
@@ -22,15 +21,22 @@ public class StockController : ControllerBase {
   [Route("poststockupdates")]
   [HttpPost]
   public async Task<IActionResult> PostStockUpdates([FromBody] List<SizeModel> sizeModels) {
-    //Then we need to use the StockRepository to build a query in the database.
-    //If we successfully execute the query, then we return 200
-    //We also need to handle the cases where we fail the query.
-    //How do we know that the query failed?
+    string? recievedUsername = Request.Headers["username"];
+    string? recievedPassword = Request.Headers["password"];
+
+    if (string.IsNullOrWhiteSpace(recievedUsername) || string.IsNullOrWhiteSpace(recievedPassword)) {
+      return BadRequest("Missing login credentials");
+    }
+
+    if (!_authenticator.Authenticate(recievedUsername, recievedPassword)) {
+      return Unauthorized("Invalid login credentials");
+    }
+
     bool successful = await _stockRepo.UpdateStockAmountsAsync(sizeModels);
     if (successful) {
-      return Ok("Wow it worked!!");
+      return Ok($"Successfully updated {sizeModels.Count} stock amount(s)");
     } else {
-      return StatusCode(500, "Request failed :(");
+      return StatusCode(500, "Something went wrong.");
     }
   }
 }

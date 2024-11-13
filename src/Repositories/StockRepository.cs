@@ -23,14 +23,13 @@ public class StockRepository {
     }
   }
 
-
   private string BuildUpdateQuery(List<SizeModel> sizeModels) {
     var queryBuilder = new StringBuilder();
     queryBuilder.AppendLine("UPDATE shoes");
     queryBuilder.AppendLine("SET stock = CASE sku");
 
     foreach (SizeModel entry in sizeModels) {
-      queryBuilder.AppendLine($"    WHEN '{entry.SKU}' THEN {entry.Stock}");
+      queryBuilder.AppendLine($"WHEN '{entry.SKU}' THEN {entry.Stock}");
     }
 
     queryBuilder.AppendLine("END");
