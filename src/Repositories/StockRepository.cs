@@ -1,4 +1,5 @@
 ﻿using erp.Models;
+using erp.Services;
 using System.Data.SqlClient;
 using System.Text;
 
@@ -6,19 +7,27 @@ namespace erp.Repositories;
 
 public class StockRepository {
   private readonly DataAccessLayer _dataAccessLayer;
+  private readonly ILoggerService _logger;
 
-  public StockRepository(DataAccessLayer dataAccessLayer) {
+  public StockRepository(DataAccessLayer dataAccessLayer, ILoggerService logger) {
     _dataAccessLayer = dataAccessLayer;
+    _logger = logger;
   }
 
   public async Task<bool> UpdateStockAmountsAsync(List<SizeModel> sizeModels) {
+    int affectedAmount = -1;
+    int passedAmount = -1;
+
     try {
       string query = BuildUpdateQuery(sizeModels);
 
       using (SqlDataReader result = await _dataAccessLayer.ExecuteQueryAsync(query)) {
-        return result.RecordsAffected == sizeModels.Count;
+        affectedAmount = result.RecordsAffected;
+        passedAmount = sizeModels.Count;
+        return affectedAmount == passedAmount;
       }
     } catch {
+      _logger.LogError($"StockRepository.UpdateStockAmountsAsync() - Passed amount: {passedAmount}, Affected amount: {affectedAmount}");
       return false;
     }
   }
