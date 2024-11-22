@@ -29,11 +29,10 @@ QUERY=$(cat "$SQL_FILE")
 
 # run the query against the database using sqlcmd.
 # hardcoded credentials are not a great idea, but this is just to get the job done during the dev phase.
-sqlcmd -S 37.27.179.21\\SQLEXPRESS22,1433 -U 'sa' -P 'itsteatime-123' -d ERP -Q "$QUERY"
+sqlcmd -S $HOVEDOPGAVE_ERP_STRING -U $HOVEDOPGAVE_ERP_USER -P $HOVEDOPGAVE_ERP_PASS -d ERP -Q "$QUERY"
 
 if [ $? -eq 0 ]; then # exit code - 0 is success.
     echo -e "${GREEN}Database query successfully ran.${RESET}"
 else
     echo -e "${RED}Database query failed.${RESET}"
 fi
-
