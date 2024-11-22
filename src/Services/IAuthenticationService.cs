@@ -1,5 +1,5 @@
 ﻿namespace erp.Services;
 
-public interface IAuthenticationService {
-  bool Authenticate(string username, string password);
+public interface IAuthenticationService<T> {
+    bool Authenticate(T login);
 }
