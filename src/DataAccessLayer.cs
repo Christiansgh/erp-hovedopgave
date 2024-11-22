@@ -25,7 +25,7 @@ public class DataAccessLayer {
             var command = new SqlCommand(query, con);
             return command.ExecuteReaderAsync();
         } catch (SqlException ex) {
-            _logger.LogError($"DataAccessLayer - Failed to open connection to database: {ex.Message}");
+            _logger.LogError($"DataAccessLayer - Failed to execute the query: '{query}', {ex.Message}");
             throw;
         }
     }
