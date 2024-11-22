@@ -120,7 +120,8 @@ INSERT INTO series (brand, name, price) VALUES
 ('Scott', 'Trail_Rocket', 425),
 ('Scott', 'Gravel', 400);
 
-INSERT INTO shoes (sku, size, stock, series_id) VALUES('100001001-36', 36, 13, 1),
+INSERT INTO shoes (sku, size, stock, series_id) VALUES
+('100001001-36', 36, 13, 1),
 ('100001001-37', 37, 18, 1),
 ('100001001-38', 38, 6, 1),
 ('100001001-39', 39, 18, 1),
