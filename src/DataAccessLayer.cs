@@ -1,14 +1,14 @@
-﻿using System.Data.SqlClient;
-using erp.Exceptions;
+﻿using erp.Exceptions;
 using erp.Services;
+using System.Data.SqlClient;
 
 namespace erp;
 
 public class DataAccessLayer {
     private readonly string? _connectionString;
-    private readonly LoggerService _logger;
+    private readonly ILoggerService _logger;
 
-    public DataAccessLayer(LoggerService logger) {
+    public DataAccessLayer(ILoggerService logger) {
         _logger = logger;
         _connectionString = Environment.GetEnvironmentVariable("HOVEDOPGAVE_ERP_CONNECTION_STRING");
 

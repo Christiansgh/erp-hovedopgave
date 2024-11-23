@@ -5,9 +5,9 @@ namespace erp.Services;
 public class SimpleAuthenticationService : IAuthenticationService<KeyValuePair<string, string>> {
     private readonly string? _username;
     private readonly string? _password;
-    private readonly LoggerService _logger;
+    private readonly ILoggerService _logger;
 
-    public SimpleAuthenticationService(LoggerService logger) {
+    public SimpleAuthenticationService(ILoggerService logger) {
         _username = Environment.GetEnvironmentVariable("API_USER");
         _password = Environment.GetEnvironmentVariable("API_PASS");
         _logger = logger;
